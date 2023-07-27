@@ -26,14 +26,20 @@ contract NFTicket is ERC721URIStorage,AccessControl {
     }
 
     function registerIssuer(string memory name,string memory pfpURI,string memory email) public {
+        require(keccak256(abi.encodePacked(name))!=keccak256(abi.encodePacked("")),"Empty name.");
+        require(keccak256(abi.encodePacked(email))!=keccak256(abi.encodePacked("")),"Empty email.");
         issuer[msg.sender]=Issuer(name,pfpURI,email,false);
     }
 
     function approveIssuer(address issuerAddr)public {
-        require(hasRole(ADMIN_ROLE, issuerAddr),"Caller is not an admin.");
+        require(hasRole(ADMIN_ROLE, msg.sender),"Caller is not an admin.");
         require(keccak256(abi.encodePacked(issuer[issuerAddr].name))!=keccak256(abi.encodePacked("")),"Issuer not registered.");
         _grantRole(ISSUER_ROLE, issuerAddr);
         issuer[issuerAddr].approved=true;
+    }
+
+    function isIssuerApproved(address issuerAddr) public view returns(bool){
+        return issuer[issuerAddr].approved;
     }
     
     function _getTokenId() private returns(uint){
@@ -43,6 +49,8 @@ contract NFTicket is ERC721URIStorage,AccessControl {
 
     function mint(address to,string memory uri)public {
         require(hasRole(ISSUER_ROLE, msg.sender), "Caller is not a issuer.");
+        require(to!=address(0),"Cannot mint to 0 address.");
+        require(keccak256(abi.encodePacked(uri))!=keccak256(abi.encodePacked("")),"Empty URI.");
         uint currTokenId=_getTokenId();
         _safeMint(to,currTokenId);
         _setTokenURI(currTokenId, uri);
@@ -53,7 +61,7 @@ contract NFTicket is ERC721URIStorage,AccessControl {
     // }
 
     function _beforeTokenTransfer(address from, address to, uint256 firstTokenId, uint256 batchSize) internal override {
-        require(from==address(0),"No permission to transfer");
+        require(from==address(0),"No permission to transfer.");
         super._beforeTokenTransfer(from,to,firstTokenId,batchSize);
     }
 
