@@ -46,8 +46,15 @@ contract Portfolio is ERC721URIStorage,AccessControl{
         portfolios[to]=currTokenId;
     }
 
-    function updatePortfolio(address student)public{
-        emit MetadataUpdate(portfolios[student], students[student],student);
+    // function updatePortfolio(address student)public{
+    //     emit MetadataUpdate(portfolios[student], students[student],student);
+    // }
+
+    function appendCertificate(address student,uint certId)public{
+        require(balanceOf(student)>0,"Student not registered.");
+        Student storage currStud=students[student];
+        currStud.certificates.push(certId);
+        emit MetadataUpdate(portfolios[student], currStud, student);
     }
 
     function changeURI(uint tokenId,string memory uri)public{

@@ -4,6 +4,10 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
+interface IPortfolio{
+    function appendCertificate(address student,uint certId) external;
+}
+
 contract NFTicket is ERC721URIStorage,AccessControl {
 
     struct Issuer{
@@ -14,15 +18,17 @@ contract NFTicket is ERC721URIStorage,AccessControl {
     }
 
     uint private _tokenId;
+    address private _portfolioAddress;
     mapping(address=>Issuer) private issuer;
 
     bytes32 public constant OWNER_ROLE = keccak256("OWNER_ROLE");
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
     bytes32 public constant ISSUER_ROLE = keccak256("ISSUER_ROLE");
 
-    constructor(address _admin) ERC721("NFTicket","nfticket") {
+    constructor(address _admin,address portfolioAddress) ERC721("NFTicket","nfticket") {
         _grantRole(OWNER_ROLE,msg.sender);
         _grantRole(ADMIN_ROLE,_admin);
+        _portfolioAddress=portfolioAddress;
     }
 
     function registerIssuer(string memory name,string memory pfpURI,string memory email) public {
@@ -54,6 +60,7 @@ contract NFTicket is ERC721URIStorage,AccessControl {
         uint currTokenId=_getTokenId();
         _safeMint(to,currTokenId);
         _setTokenURI(currTokenId, uri);
+        IPortfolio(_portfolioAddress).appendCertificate(to,currTokenId);
     }
 
     // function _baseURI() internal pure override returns (string memory) {
