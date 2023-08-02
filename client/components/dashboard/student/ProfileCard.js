@@ -2,8 +2,8 @@ import React from 'react';
 
 const ProfileCard = ({ profileDetails }) => {
   return (
-    <div className="col-lg-6">
-    <div className="fugu--hero-right">
+    <div className="col-lg-6 container">
+    <div className="mb-30">
       <div className="fugu--card-wrap">
         <div className="fugu--card-thumb">
           <img src="/images/all-img/v3/hero-thumb2.png" alt="" />

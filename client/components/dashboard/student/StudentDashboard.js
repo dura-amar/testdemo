@@ -29,6 +29,7 @@ export default function StudentDashboard() {
   return (
     <>
       <ProfileCard profileDetails={profileDetails} />
+      <div style={{height:"30px"}}></div>
       <NFTicates nfts={nfts} />
     </>
   );
