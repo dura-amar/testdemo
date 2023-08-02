@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import Link from "next/link";
+import Link from "next/Link";
 import CountUp from "react-countup";
 
 export default function HeroSection() {

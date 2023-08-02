@@ -11,13 +11,22 @@ import { useState } from "react";
 import NavItem from "../navbar/nav-item";
 import Navbar from "../navbar/navbar";
 import useScroll from "./../../../hooks/useScroll";
+import { useAppContext } from "../../../context/AppContext";
 
-export default function HeaderHomeThree() {
+export default function HeaderDashboard() {
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const{state,setState}= useAppContext();
 
 	const handleCloseMobileMenu = () => {
 		setIsMobileMenuOpen(false);
 	};
+
+    const connectWallet = () =>{
+        // Wallet connection logic goes here
+        // Update the global state using context
+        console.log("Connecting wallet.")
+    }
+
 
 	const scroll = useScroll();
 	return (
@@ -53,15 +62,15 @@ export default function HeaderHomeThree() {
 								<Link href="/about-us" className="nav-link-item ">About</Link>
 								{/* <Link className="nav-link-item" menuItems={PagesDropdownMenus}>More</Link> */}
 								<NavItem navItemText="More" menuItems={PagesDropdownMenus}/>
-								<NavItem navItemText='Are you recruiter?'/>
+								{/* <NavItem navItemText='Are you recruiter?'/> */}
 								{/* <Link href="/about-us" className="nav-link-item ">Are you recuiter?</Link> */}
 							</Navbar>
 						</nav>
 					</div>
 					<div className="header-btn header-btn-l1 ms-auto d-none d-xs-inline-flex">
-						<Link className="fugu--btn fugu--menu-btn1" href="/dashboard">
-							Try Dapp
-						</Link>
+						<button className="fugu--btn fugu--menu-btn1" href="/dashboard" onClick={()=>connectWallet()}>
+							Connect Wallet
+						</button>
 					</div>
 					<div className="mobile-menu-trigger" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
 						<span></span>

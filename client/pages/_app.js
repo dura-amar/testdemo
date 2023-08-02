@@ -10,22 +10,24 @@ import Preloader from "../components/common/preloader/preloader";
 import ScrollTop from "../components/common/scroll-top";
 import "../styles/css/app.css";
 import "../styles/css/main.css";
+import AppProvider from "../context/AppContext";
 
 function MyApp({ Component, pageProps }) {
-	return (
-		<>
-			<Head>
-				{/* common title */}
-				<title>fugu</title>
-			</Head>
-			<Layout>
-				<Component {...pageProps} />
-			</Layout>
-
-			<ScrollTop />
-			<Preloader />
-		</>
-	);
+  return (
+    <>
+      <AppProvider>
+        <Head>
+          {/* common title */}
+          <title>fugu</title>
+        </Head>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+        <ScrollTop />
+        <Preloader />F
+      </AppProvider>
+    </>
+  );
 }
 
 export default MyApp;
