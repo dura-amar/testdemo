@@ -11,13 +11,42 @@ import { useState } from "react";
 import NavItem from "../navbar/nav-item";
 import Navbar from "../navbar/navbar";
 import useScroll from "./../../../hooks/useScroll";
+import Web3 from 'web3';
 
 export default function HeaderHomeThree() {
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+	const [account,setAccount]=useState('');
 
 	const handleCloseMobileMenu = () => {
 		setIsMobileMenuOpen(false);
 	};
+
+	const loadBlockchainData=async()=>{
+		const web3=window.web3
+		const accounts=await web3.eth.getAccounts()
+
+		setAccount(accounts[0])
+	}
+
+	const connectWallet=async()=>{
+		console.log("Inside connect.")
+		try{
+			if(window.ethereum){
+			  window.web3=new Web3(window.ethereum)
+			  await window.ethereum.enable()
+			}
+			else if(window.web3){
+			  window.web3=new Web3(window.web3.currentProvider)
+			}
+			else{
+			  window.alert('Non-Ethereum Browser Detected!')
+			}
+		  }
+		  catch(err){
+			console.log(err.message)
+		  }
+		  loadBlockchainData();
+	}
 
 	const scroll = useScroll();
 	return (
@@ -58,10 +87,12 @@ export default function HeaderHomeThree() {
 							</Navbar>
 						</nav>
 					</div>
-					<div className="header-btn header-btn-l1 ms-auto d-none d-xs-inline-flex">
-						<a className="fugu--btn fugu--menu-btn1" href="contact.html">
-							Connect Wallet
-						</a>
+					<div className="header-btn header-btn-l1 ms-auto d-none d-xs-inline-flex" onClick={connectWallet}>
+						{account? <a className="fugu--btn fugu--menu-btn1">
+							{account} 
+						</a>: <a className="fugu--btn fugu--menu-btn1">
+							Connect Wallet 
+						</a>}
 					</div>
 					<div className="mobile-menu-trigger" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
 						<span></span>
