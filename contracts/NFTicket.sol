@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 
 interface IPortfolio{
     function appendCertificate(address student,uint certId) external;
+    function isStudent(address student) external returns(bool);
 }
 
 contract NFTicket is ERC721URIStorage,AccessControl {
@@ -54,13 +55,25 @@ contract NFTicket is ERC721URIStorage,AccessControl {
     }
 
     function mint(address to,string memory uri)public {
-        require(hasRole(ISSUER_ROLE, msg.sender), "Caller is not a issuer.");
+        require(hasRole(ISSUER_ROLE, msg.sender), "Caller is not an issuer.");
         require(to!=address(0),"Cannot mint to 0 address.");
         require(keccak256(abi.encodePacked(uri))!=keccak256(abi.encodePacked("")),"Empty URI.");
         uint currTokenId=_getTokenId();
         _safeMint(to,currTokenId);
         _setTokenURI(currTokenId, uri);
         IPortfolio(_portfolioAddress).appendCertificate(to,currTokenId);
+    }
+
+    function getRole(address user)public returns(string memory) {
+        if(keccak256(abi.encodePacked(issuer[user].name))!=keccak256(abi.encodePacked(""))){
+            return "ISSUER";
+        }
+        else if(IPortfolio(_portfolioAddress).isStudent(user)){
+            return "STUDENT";
+        }
+        else{
+            return "NONE";
+        }
     }
 
     // function _baseURI() internal pure override returns (string memory) {

@@ -67,6 +67,15 @@ contract Portfolio is ERC721URIStorage,AccessControl{
         return _tokenId;
     }
 
+    function isStudent(address user)public view returns(bool){
+        if(keccak256(abi.encodePacked(students[user].name))!=keccak256(abi.encodePacked(""))){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     function supportsInterface(bytes4 interfaceId) public view override(ERC721URIStorage,AccessControl) returns (bool)
     {
         return super.supportsInterface(interfaceId);
