@@ -3,6 +3,7 @@ import FooterHomeFour from "./footer/footer-home-four";
 import FooterHomeOne from "./footer/footer-home-one";
 import FooterHomeThree from "./footer/footer-home-three";
 import FooterHomeTwo from "./footer/footer-home-two";
+import HeaderDashboard from "./header/header-dashboard";
 import HeaderErrorSix from "./header/header-error-six";
 import HeaderHomeFive from "./header/header-home-five";
 import HeaderHomeFour from "./header/header-home-four";
@@ -25,6 +26,8 @@ export default function Layout({ children }) {
 				return <HeaderHomeFive />;
 			case "six":
 				return <HeaderErrorSix />;
+			case "dashboard":
+				return <HeaderDashboard/>
 			default:
 				return <HeaderHomeOne />;
 		}

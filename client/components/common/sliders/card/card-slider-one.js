@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import Link from "next/link";
+import Link from "next/Link";
 import Slider from "react-slick";
 function NextArrow({ onClick }) {
 	return <button className="slide-arrow fugu--arrow" onClick={onClick}></button>;
