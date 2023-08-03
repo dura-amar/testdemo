@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 
 interface IPortfolio{
     function appendCertificate(address student,uint certId) external;
-    function isStudent(address student) external returns(bool);
+    function isStudent(address student) external view returns(bool);
 }
 
 contract NFTicket is ERC721URIStorage,AccessControl {
@@ -64,11 +64,12 @@ contract NFTicket is ERC721URIStorage,AccessControl {
         IPortfolio(_portfolioAddress).appendCertificate(to,currTokenId);
     }
 
-    function getRole(address user)public returns(string memory) {
+    function getRole(address user)public view returns(string memory) {
+        bool value=IPortfolio(_portfolioAddress).isStudent(user);
         if(keccak256(abi.encodePacked(issuer[user].name))!=keccak256(abi.encodePacked(""))){
             return "ISSUER";
         }
-        else if(IPortfolio(_portfolioAddress).isStudent(user)){
+        else if(value){
             return "STUDENT";
         }
         else{

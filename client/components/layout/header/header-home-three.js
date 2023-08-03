@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect} from "react";
  import {
 // 	BlogDropdownMenus,
 // 	ContactDropdownMenus,
@@ -12,40 +12,48 @@ import NavItem from "../navbar/nav-item";
 import Navbar from "../navbar/navbar";
 import useScroll from "./../../../hooks/useScroll";
 import Web3 from 'web3';
+import NFTicketContract from '../../../blockchain/NFTicket'
 
 export default function HeaderHomeThree() {
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 	const [account,setAccount]=useState('');
+	const [userType,setUserType]=useState('');
+	const [web3js,setWeb3]=useState(null);
+	const [nfticket,setNfticket]=useState(null);
 
 	const handleCloseMobileMenu = () => {
 		setIsMobileMenuOpen(false);
 	};
 
-	const loadBlockchainData=async()=>{
-		const web3=window.web3
-		const accounts=await web3.eth.getAccounts()
+	useEffect(()=>{
+		if(web3js && account) checkUser(account)
+	})
 
-		setAccount(accounts[0])
+	const checkUser=async(user)=>{
+		const reply=await nfticket.methods.name().call()
+
+		// const reply2=await nfticket.methods.getRole(user).call()
+		console.log(reply)
 	}
 
 	const connectWallet=async()=>{
 		console.log("Inside connect.")
-		try{
-			if(window.ethereum){
-			  window.web3=new Web3(window.ethereum)
-			  await window.ethereum.enable()
+		if(typeof window !== "undefined" && typeof window.ethereum !== "undefined"){
+			try{
+				await window.ethereum.request({method:"eth_requestAccounts"})
+				let web3js=new Web3(window.ethereum)
+				setWeb3(web3js)
+
+				const accounts=await web3js.eth.getAccounts()
+				setAccount(accounts[0])
+
+				const nfticket_temp=NFTicketContract(web3js)
+				setNfticket(nfticket_temp)
 			}
-			else if(window.web3){
-			  window.web3=new Web3(window.web3.currentProvider)
+			catch(err){
+				console.log(err)
 			}
-			else{
-			  window.alert('Non-Ethereum Browser Detected!')
-			}
-		  }
-		  catch(err){
-			console.log(err.message)
-		  }
-		  loadBlockchainData();
+		}
 	}
 
 	const scroll = useScroll();
