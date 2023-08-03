@@ -1,6 +1,7 @@
 import React from "react";
 import StudentDashboard from "../components/dashboard/student/StudentDashboard";
 import IssuerDashboard from "../components/dashboard/issuer/IssuerDashboard";
+import VerifierDashboard from "../components/dashboard/verifier/VerifierDashboard";
 
 export default function dashboard() {
   return (
@@ -14,7 +15,8 @@ export default function dashboard() {
         <div className="content wow ">
           {/* Check the type of the current user and render the appropriate dashboard */}
           {/* <StudentDashboard /> */}
-          <IssuerDashboard />
+          {/* <IssuerDashboard /> */}
+          <VerifierDashboard/>
         </div>
       </div>
       <div
