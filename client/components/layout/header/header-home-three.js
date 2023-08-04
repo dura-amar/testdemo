@@ -30,10 +30,10 @@ export default function HeaderHomeThree() {
 	})
 
 	const checkUser=async(user)=>{
-		const reply=await nfticket.methods.name().call()
+		// const reply=await nfticket.methods.name().call()
 
-		// const reply2=await nfticket.methods.getRole(user).call()
-		console.log(reply)
+		const reply2=await nfticket.methods.getRole(user).call()
+		console.log(reply2)
 	}
 
 	const connectWallet=async()=>{

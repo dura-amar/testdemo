@@ -1,35 +1,34 @@
 // SPDX-License-Identifier: SEE LICENSE IN LICENSE
-pragma solidity ^0.8.19;
+pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
+import "./Portfolio.sol"; 
 
-interface IPortfolio{
-    function appendCertificate(address student,uint certId) external;
-    function isStudent(address student) external view returns(bool);
-}
-
-contract NFTicket is ERC721URIStorage,AccessControl {
-
-    struct Issuer{
+contract NFTicket is ERC721URIStorage, AccessControl {
+        struct Issuer{
         string name;
         string pfpURI;
         string email;
         bool approved;
     }
 
-    uint private _tokenId;
-    address private _portfolioAddress;
+    Portfolio public PortfolioInstance; // Change the visibility to public
+
+     uint private _tokenId;
+   
     mapping(address=>Issuer) private issuer;
+    
 
     bytes32 public constant OWNER_ROLE = keccak256("OWNER_ROLE");
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
     bytes32 public constant ISSUER_ROLE = keccak256("ISSUER_ROLE");
 
-    constructor(address _admin,address portfolioAddress) ERC721("NFTicket","nfticket") {
-        _grantRole(OWNER_ROLE,msg.sender);
+
+    constructor(address _admin, address portfolioAddress) ERC721("NFTicket", "nfticket") {
+       _grantRole(OWNER_ROLE,msg.sender);
         _grantRole(ADMIN_ROLE,_admin);
-        _portfolioAddress=portfolioAddress;
+        PortfolioInstance = Portfolio(portfolioAddress);
     }
 
     function registerIssuer(string memory name,string memory pfpURI,string memory email) public {
@@ -54,18 +53,19 @@ contract NFTicket is ERC721URIStorage,AccessControl {
         return _tokenId;
     }
 
-    function mint(address to,string memory uri)public {
+    function mint(address to, string memory uri) public {
         require(hasRole(ISSUER_ROLE, msg.sender), "Caller is not an issuer.");
         require(to!=address(0),"Cannot mint to 0 address.");
         require(keccak256(abi.encodePacked(uri))!=keccak256(abi.encodePacked("")),"Empty URI.");
         uint currTokenId=_getTokenId();
         _safeMint(to,currTokenId);
         _setTokenURI(currTokenId, uri);
-        IPortfolio(_portfolioAddress).appendCertificate(to,currTokenId);
+        PortfolioInstance.appendCertificate(to, currTokenId); 
     }
 
+   
     function getRole(address user)public view returns(string memory) {
-        bool value=IPortfolio(_portfolioAddress).isStudent(user);
+        bool value=PortfolioInstance.isStudent(user);
         if(keccak256(abi.encodePacked(issuer[user].name))!=keccak256(abi.encodePacked(""))){
             return "ISSUER";
         }
