@@ -8,8 +8,9 @@ describe("NFTicket Contract", function () {
   async function deployFixture() {
     const [owner,admin,issuer,student] = await ethers.getSigners();
     const hardhatPortfolio = await ethers.deployContract("Portfolio",[admin.address]);
-    console.log(hardhatPortfolio.target)
+    console.log("Portfolio Contract: ",hardhatPortfolio.target)
     const hardhatNFTicket = await ethers.deployContract("NFTicket",[admin.address,hardhatPortfolio.target]);
+    console.log("NFTiket Contract: ", hardhatNFTicket.target)
 
     return {hardhatNFTicket,owner,admin,issuer,student,hardhatPortfolio};
   }
@@ -72,8 +73,6 @@ describe("NFTicket Contract", function () {
     console.log(reply2)
     const reply3=await hardhatNFTicket.getRole(student.address)
     console.log(reply3)
-
-    
   })
 
 });
