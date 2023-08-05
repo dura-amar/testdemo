@@ -1,17 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import idverseContext from "../../../context/IdverseContext";
 
 const CertificateIssuanceForm = ({ onIssueCertificate }) => {
+  const { 
+    currentAccount,
+    web3js,
+    nfticket,
+    setUserType ,
+    isStudent,
+    userType,
+  } =
+    useContext(idverseContext);
+
   const [studentName, setStudentName] = useState("");
   const [walletAddress, setWalletAddress] = useState("");
   const [certificateTitle, setCertificateTitle] = useState("");
   const [certificateDate, setCertificateDate] = useState("");
   const [certificateImage, setCertificateImage] = useState(null);
 
-  const handleIssueCertificate = () => {
-    // Validation and data processing logic can be added here
-    // For simplicity, let's assume the data is valid and proceed with issuing the certificate
-
-    // Create the certificate object
+  const handleIssueCertificate = async() => {
+    console.log(walletAddress);
+    await nfticket.methods.mint(walletAddress,"uri").send({from:currentAccount});
     const certificateData = {
       studentName,
       walletAddress,
