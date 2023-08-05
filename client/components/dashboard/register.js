@@ -1,36 +1,35 @@
 import React from "react";
 
 export default function Register() {
-
-    const registerStudent=()=>{
-        console.log("Student registration")
-    }
-    const registerIssuer=()=>{
-        console.log("Issuer registration")
-    }
+  const registerStudent = () => {
+    console.log("Student registration");
+  };
+  const registerIssuer = () => {
+    console.log("Issuer registration");
+  };
 
   return (
     <>
-       <div className="container " style={{
-        display:"flex",
-       }}>
-       <div className="header-btn header-btn-l1 ms-auto d-none d-xs-inline-flex" >
+      <div className="container ">
+        <div className="row mt-4 col-md-6">
+          <div className="col-md-4 mt-3">
             <button
               className="fugu--btn fugu--menu-btn1"
-			  onClick={registerStudent}
+              onClick={registerStudent}
             >
               Student
             </button>
           </div>
-          <div className="header-btn header-btn-l1 ms-auto d-none d-xs-inline-flex" >
+          <div className="col-md-4 mt-3">
             <button
               className="fugu--btn fugu--menu-btn1"
-			  onClick={registerIssuer}
+              onClick={registerIssuer}
             >
               Issuer
             </button>
           </div>
-       </div>
+        </div>
+      </div>
     </>
   );
 }
