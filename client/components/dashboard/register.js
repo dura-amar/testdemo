@@ -1,13 +1,23 @@
 import React from "react";
-
+import idverseContext from "../../context/IdverseContext"
+import { useContext } from "react";
 export default function Register() {
 
-    const registerStudent=()=>{
-        console.log("Student registration")
+  const { currentAccount, handleWalletConnect, isConnected, connectWallet,web3js,nfticket,setUserType,pflcontract,setIsStudent } =
+    useContext(idverseContext);
+
+  const registerStudent=async()=>{
+    if(pflcontract && web3js){
+      await pflcontract.methods.registerStudent("Student1","pfp","student@email").send({from:currentAccount});
+      const reply=await pflcontract.methods.isStudent(currentAccount).call();
+      console.log("ISSTUDNET:",reply);
+      setIsStudent(reply);
+      setUserType("STUDENT");
     }
-    const registerIssuer=()=>{
-        console.log("Issuer registration")
-    }
+  }
+  const registerIssuer=()=>{
+      console.log("Issuer registration")
+  }
 
   return (
     <>

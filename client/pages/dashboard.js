@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import StudentDashboard from "../components/dashboard/student/StudentDashboard";
 import IssuerDashboard from "../components/dashboard/issuer/IssuerDashboard";
@@ -7,8 +7,9 @@ import idverseContext from "../context/IdverseContext";
 import Register from "../components/dashboard/register";
 
 export default function dashboard() {
-  const { currentAccount, handleWalletConnect, isConnected, connectWallet,web3js,nfticket } =
+  const { currentAccount, handleWalletConnect, isConnected, connectWallet,web3js,nfticket,setUserType } =
     useContext(idverseContext);
+
 
   useEffect(()=>{
     if(web3js && nfticket){
@@ -18,7 +19,7 @@ export default function dashboard() {
 
   const checkUser=async(user)=>{
     const reply=await nfticket.methods.getRole(user).call()
-    console.log("USER:",reply);
+    setUserType(reply)
   }
 
   return (

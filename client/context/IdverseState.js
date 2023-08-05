@@ -4,12 +4,16 @@ import { useState } from "react";
 import IdverseContext from "./IdverseContext";
 import Web3 from "web3";
 import NFTicketContract from "../blockchain/NFTicket"
+import pflContract from "../blockchain/Portfolio"
 
 export default function IdverseState({ children }) {
   const [currentAccount, setCurrentAccount] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
   const [web3js, setWeb3js] = useState(null);
   const [nfticket, setnfticket] = useState(null);
+  const [pflcontract, setpflContract] = useState(null);
+  const [userType, setUserType] = useState(null);
+  const [isStudent, setIsStudent] = useState(null);
 
   const connectWallet = async () => {
     if (
@@ -26,8 +30,8 @@ export default function IdverseState({ children }) {
         setIsConnected(true);
         const nfticket=NFTicketContract(web3js)
         setnfticket(nfticket)
-        console.log(nfticket,web3js)
-
+        const pflcontract=pflContract(web3js)
+        setpflContract(pflcontract)
       } catch (err) {
         console.log(err);
       }
@@ -41,7 +45,11 @@ export default function IdverseState({ children }) {
         isConnected,
         connectWallet,
         web3js,
-        nfticket
+        nfticket,
+        userType,
+        setUserType,
+        pflcontract,
+        setIsStudent
       }}
     >
       {children}
