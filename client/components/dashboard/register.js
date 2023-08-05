@@ -15,8 +15,11 @@ export default function Register() {
       setUserType("STUDENT");
     }
   }
-  const registerIssuer=()=>{
-      console.log("Issuer registration")
+  const registerIssuer=async()=>{
+      await nfticket.methods.registerIssuer("Issuer1","pfp","issuer@email").send({from:currentAccount});
+      const reply=await nfticket.methods.getRole(currentAccount).call();
+      console.log("Role:",reply);
+      setUserType("ISSUER");
   }
 
   return (

@@ -8,6 +8,7 @@ import pflContract from "../blockchain/Portfolio"
 
 export default function IdverseState({ children }) {
   const [currentAccount, setCurrentAccount] = useState(null);
+  const [issuerAccount,setIssuerAccount] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
   const [web3js, setWeb3js] = useState(null);
   const [nfticket, setnfticket] = useState(null);
@@ -49,7 +50,7 @@ export default function IdverseState({ children }) {
         userType,
         setUserType,
         pflcontract,
-        setIsStudent
+        setIsStudent,
       }}
     >
       {children}
