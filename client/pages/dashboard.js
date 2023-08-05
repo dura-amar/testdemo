@@ -7,7 +7,14 @@ import idverseContext from "../context/IdverseContext";
 import Register from "../components/dashboard/register";
 
 export default function dashboard() {
-  const { currentAccount, handleWalletConnect, isConnected, connectWallet,web3js,nfticket,setUserType } =
+  const { 
+    currentAccount,
+    web3js,
+    nfticket,
+    setUserType ,
+    isStudent,
+    userType,
+  } =
     useContext(idverseContext);
 
 
@@ -32,9 +39,9 @@ export default function dashboard() {
       <div className="container">
         <div className="content wow ">
           {/* Check the type of the current user and render the appropriate dashboard */}
-          <Register/>
-          {/* <StudentDashboard /> */}
-          {/* <IssuerDashboard /> */}
+          {userType==="NONE" && <Register/>}
+          {userType==="STUDENT" && <StudentDashboard /> }
+          {userType==="ISSUER" && <IssuerDashboard /> }
           {/* <VerifierDashboard/> */}
         </div>
       </div>
