@@ -3,11 +3,13 @@ import { useState } from "react";
 
 import IdverseContext from "./IdverseContext";
 import Web3 from "web3";
-import { provider } from "../pages/api/contractAPI";
+import NFTicketContract from "../blockchain/NFTicket"
 
 export default function IdverseState({ children }) {
   const [currentAccount, setCurrentAccount] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
+  const [web3js, setWeb3js] = useState(null);
+  const [nfticket, setnfticket] = useState(null);
 
   const connectWallet = async () => {
     if (
@@ -16,11 +18,16 @@ export default function IdverseState({ children }) {
     ) {
       try {
         await window.ethereum.request({ method: "eth_requestAccounts" });
-        let web3js = new Web3(window.ethereum);
+        const web3js = new Web3(window.ethereum);
+        setWeb3js(web3js);
         const accounts = await web3js.eth.getAccounts();
         setCurrentAccount(accounts[0]);
         console.log("Connected: ", accounts[0])
         setIsConnected(true);
+        const nfticket=NFTicketContract(web3js)
+        setnfticket(nfticket)
+        console.log(nfticket,web3js)
+
       } catch (err) {
         console.log(err);
       }
@@ -33,6 +40,8 @@ export default function IdverseState({ children }) {
         currentAccount,
         isConnected,
         connectWallet,
+        web3js,
+        nfticket
       }}
     >
       {children}

@@ -1,9 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useContext } from "react";
 import StudentDashboard from "../components/dashboard/student/StudentDashboard";
 import IssuerDashboard from "../components/dashboard/issuer/IssuerDashboard";
 import VerifierDashboard from "../components/dashboard/verifier/VerifierDashboard";
+import idverseContext from "../context/IdverseContext";
 
 export default function dashboard() {
+  const { currentAccount, handleWalletConnect, isConnected, connectWallet,web3js,nfticket } =
+    useContext(idverseContext);
+
+  useEffect(()=>{
+    if(web3js && nfticket){
+      checkUser(currentAccount);
+    }
+  })
+
+  const checkUser=async(user)=>{
+    const reply=await nfticket.methods.getRole(user).call()
+    console.log("USER:",reply);
+  }
+
   return (
     <div className="section" style={{ backgroundColor: "#343a40" }}>
       <div
