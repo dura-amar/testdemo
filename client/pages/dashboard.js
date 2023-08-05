@@ -4,6 +4,7 @@ import StudentDashboard from "../components/dashboard/student/StudentDashboard";
 import IssuerDashboard from "../components/dashboard/issuer/IssuerDashboard";
 import VerifierDashboard from "../components/dashboard/verifier/VerifierDashboard";
 import idverseContext from "../context/IdverseContext";
+import Register from "../components/dashboard/register";
 
 export default function dashboard() {
   const { currentAccount, handleWalletConnect, isConnected, connectWallet,web3js,nfticket } =
@@ -30,9 +31,10 @@ export default function dashboard() {
       <div className="container">
         <div className="content wow ">
           {/* Check the type of the current user and render the appropriate dashboard */}
+          <Register/>
           {/* <StudentDashboard /> */}
           {/* <IssuerDashboard /> */}
-          <VerifierDashboard/>
+          {/* <VerifierDashboard/> */}
         </div>
       </div>
       <div
