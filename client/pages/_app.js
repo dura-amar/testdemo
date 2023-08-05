@@ -10,22 +10,22 @@ import Preloader from "../components/common/preloader/preloader";
 import ScrollTop from "../components/common/scroll-top";
 import "../styles/css/app.css";
 import "../styles/css/main.css";
-import AppProvider from "../context/AppContext";
+import IdverseState from "../context/IdverseState";
 
 function MyApp({ Component, pageProps }) {
   return (
     <>
-      <AppProvider>
+      <IdverseState>
         <Head>
           {/* common title */}
-          <title>fugu</title>
+          <title>IDverse</title>
         </Head>
         <Layout>
           <Component {...pageProps} />
         </Layout>
         <ScrollTop />
-        <Preloader />F
-      </AppProvider>
+        <Preloader />
+      </IdverseState>
     </>
   );
 }

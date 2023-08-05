@@ -95,13 +95,19 @@ export default function HeaderHomeThree() {
 							</Navbar>
 						</nav>
 					</div>
-					<div className="header-btn header-btn-l1 ms-auto d-none d-xs-inline-flex" onClick={connectWallet}>
+					{/* <div className="header-btn header-btn-l1 ms-auto d-none d-xs-inline-flex" onClick={connectWallet}>
 						{account? <a className="fugu--btn fugu--menu-btn1">
 							{account} 
 						</a>: <a className="fugu--btn fugu--menu-btn1">
 							Connect Wallet 
 						</a>}
-					</div>
+					</div> */}
+					<div className="header-btn header-btn-l1 ms-auto d-none d-xs-inline-flex">
+						<Link className="fugu--btn fugu--menu-btn1" href="/dashboard">
+							Try Dapp
+						</Link>
+					</div> 
+
 					<div className="mobile-menu-trigger" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
 						<span></span>
 					</div>
